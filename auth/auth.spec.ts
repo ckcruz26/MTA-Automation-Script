@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-
+import path from "path";
 
 test('MTA Login Session', async ({ page }) => {
     
@@ -15,8 +15,9 @@ test('MTA Login Session', async ({ page }) => {
     await page.getByRole('textbox', { name: 'Password' }).fill(passwordAccount);
     await page.getByRole('button', { name: 'Sign In' }).click();
     
+    await expect(page).toHaveURL(/.*\/Dashboard*/);
 
     // Save storage state to a file
-    await page.context().storageState({ path: "auth.json" });
-
+   
+    await page.context().storageState({ path: path.resolve(__dirname, 'auth/auth.json') });
 });
